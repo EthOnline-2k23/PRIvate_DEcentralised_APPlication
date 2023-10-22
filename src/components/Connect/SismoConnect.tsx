@@ -233,6 +233,8 @@ export function SismoConnect() {
                         })
                       mastercontract.on('Balance', balance => {
                         console.log('Value of balances[evmAccountIds[0]]/1e18: ', balance.toString())
+                        var res = document.getElementById('result')
+                        res.innerText = 'Value of balance: ' + (balance / 1e18).toString()
                       })
                     } else {
                       console.warn('Please use web3 enabled browser')

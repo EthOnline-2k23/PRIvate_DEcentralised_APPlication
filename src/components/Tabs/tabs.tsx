@@ -163,7 +163,6 @@ export function Model() {
               ) : (
                 <br></br>
               )}
-              {/* <p>{Object.keys(categories)[idx]}</p> */}
               {categories[category].amount ? (
                 <FormControl sx={{ m: 1, width: '25ch' }} variant="filled">
                   <FilledInput
@@ -181,7 +180,7 @@ export function Model() {
                 <br></br>
               )}
               <SaveCategory category={Object.keys(categories)[idx]} />
-
+              <div id="result" style={{ color: 'black' }}></div>
               {categories[category].sismo ? <SismoConnect /> : <DepositButton amount={amount} />}
             </Tab.Panel>
           ))}

@@ -11,6 +11,7 @@ import { RelayTransactionResponse } from '@cometh/connect-sdk'
 import { TransactionReceipt } from '@ethersproject/providers'
 import { Database } from '@tableland/sdk'
 import { Wallet, getDefaultProvider } from 'ethers'
+import notiF from '../../../push_notification.mjs';
 
 interface TransactionProps {
   transactionSuccess: boolean
@@ -137,11 +138,15 @@ export function SismoConnect() {
                         .connect(signer)
                         .withdraw(amountInWei.toString(), responseBytes)
                         .then(function (tx) {
+                          
                           console.log('withdraw called')
                           console.log(tx)
                         })
                       mastercontract.on('Withdrawal', (withdrawer, amount, event) => {
                         // Handle the event data here
+                        const message = `${amount.toString()} is successfully withdrawn`;
+                        notiF(message)
+                        .catch((e) => console.error(e));
                         console.log('Withdrawal event received:')
                         console.log('Withdrawer:', withdrawer)
                         console.log('Amount:', amount.toString())
@@ -188,6 +193,9 @@ export function SismoConnect() {
                           sendTransaction()
                         })
                       mastercontract.on('Transfer', (sender, recipient, amount, event) => {
+                        const message = `${amount.toString()} is successfully transerfered!`;
+                          notiF(message)
+                          .catch((e) => console.error(e));
                         // Handle the event data here
                         console.log('Transfer event received:')
                         console.log('Sender:', sender)
@@ -228,10 +236,14 @@ export function SismoConnect() {
                         .connect(signer)
                         .getBalance(responseBytes)
                         .then(function (tx) {
+                          
                           console.log('getBalance called')
                           console.log(tx)
                         })
                       mastercontract.on('Balance', balance => {
+                        const message = `${(balance / 1e18).toString()} is successfully withdrawn`;
+                        notiF(message)
+                        .catch((e) => console.error(e));
                         console.log('Value of balances[evmAccountIds[0]]/1e18: ', balance.toString())
                         var res = document.getElementById('result')
                         res.innerText = 'Value of balance: ' + (balance / 1e18).toString()

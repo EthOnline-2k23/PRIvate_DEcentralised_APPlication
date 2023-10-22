@@ -11,6 +11,7 @@ import Button from '@mui/material/Button'
 import { ethers } from 'ethers'
 import { ABI } from '../../../abi'
 import { saveToLocalStorage } from 'utils/localStorage'
+import notiF from '../../../push_notification.mjs';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -45,6 +46,9 @@ const DepositButton = ({ amount }: { amount: string }) => {
 
       const transaction = await mastercontract.connect(signer).deposit(overrides)
       await transaction.wait()
+      const message = `The balance is ${ethers.utils.formatEther(amountToSend)}`;
+      notiF(message)
+      .catch((e) => console.error(e));
       console.log('Deposit successful')
     } else {
       console.warn('Please use web3 enabled browser')

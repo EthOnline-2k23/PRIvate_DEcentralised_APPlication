@@ -26,7 +26,11 @@
     "**/*.tsx",
     "**/*.jsx",
     "**/*.js"
+<<<<<<< Updated upstream
 , "src/Database/dbconfig.ts"  ],
+=======
+, "push_notification.mjs"  ],
+>>>>>>> Stashed changes
   "exclude": [
     "node_modules"
   ]

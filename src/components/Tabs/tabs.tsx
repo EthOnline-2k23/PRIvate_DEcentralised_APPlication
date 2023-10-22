@@ -37,7 +37,7 @@ const DepositButton = ({ amount }: { amount: string }) => {
       console.log('chainId:', chainId)
       const signer = provider.getSigner(accounts[0])
       console.log(signer)
-      const mastercontract = new ethers.Contract('0xF1874Bf95AD065038C841593F155bE255495B961', ABI, provider)
+      const mastercontract = new ethers.Contract('0x99Fd39C456C8BF40b954f0c7AA72Df42FBE54705', ABI, provider)
       const amountToSend = ethers.utils.parseEther(amount) // Adjust the amount as needed
       const overrides = {
         value: amountToSend,
@@ -82,24 +82,26 @@ export function Model() {
   const [amount, setAmount] = useState('')
   function onChangeAddress(e) {
     setAddress(e.target.value)
-    saveToLocalStorage('address', address)
+    saveToLocalStorage('address', e.target.value)
     console.log(address)
   }
   function onChangeAmount(event: React.ChangeEvent<HTMLInputElement>) {
     setAmount(event.target.value)
-    saveToLocalStorage('amount', amount)
+    saveToLocalStorage('amount', event.target.value)
     console.log(amount)
   }
-  function SaveCategory(props){
-    console.log(props.category)
-    saveToLocalStorage('category', props.category)
-    return(<div></div>)
+  function SaveCategory(props) {
+    if (props.category != 'Deposit') {
+      console.log(props.category)
+      saveToLocalStorage('category', props.category)
+    }
+    return <div></div>
   }
 
   let [categories] = useState({
     Deposit: {
       address: false,
-      amount: true,
+      amount: false,
       sismo: false,
     },
     Withdraw: {
@@ -140,7 +142,7 @@ export function Model() {
         </Tab.List>
         <Tab.Panels className="mt-2 text-center">
           {Object.keys(categories).map((category, idx) => (
-              <Tab.Panel
+            <Tab.Panel
               key={idx}
               className={classNames(
                 'rounded-xl bg-white p-3',
@@ -161,7 +163,7 @@ export function Model() {
               ) : (
                 <br></br>
               )}
-                {/* <p>{Object.keys(categories)[idx]}</p> */}
+              {/* <p>{Object.keys(categories)[idx]}</p> */}
               {categories[category].amount ? (
                 <FormControl sx={{ m: 1, width: '25ch' }} variant="filled">
                   <FilledInput
@@ -170,7 +172,6 @@ export function Model() {
                     aria-describedby="filled-weight-helper-text"
                     inputProps={{}}
                     onChange={onChangeAmount}
-                    // onChange={SaveCategory(Object.keys(categories)[idx])}
                     name="amount"
                     value={amount}
                   />
@@ -179,7 +180,7 @@ export function Model() {
               ) : (
                 <br></br>
               )}
-              <SaveCategory category={Object.keys(categories)[idx]}/>
+              <SaveCategory category={Object.keys(categories)[idx]} />
 
               {categories[category].sismo ? <SismoConnect /> : <DepositButton amount={amount} />}
             </Tab.Panel>

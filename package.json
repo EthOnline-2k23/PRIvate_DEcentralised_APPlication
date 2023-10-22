@@ -25,6 +25,8 @@
     "@react-spring/web": "^9.7.3",
     "@sismo-core/sismo-connect-react": "^0.0.23",
     "@sismo-core/sismo-connect-server": "^0.0.23",
+    "@tableland/local": "^2.0.2",
+    "@tableland/sdk": "^4.5.3-dev.0",
     "@tailwindcss/typography": "^0.5.8",
     "autoprefixer": "^10.4.13",
     "aws-amplify": "^5.3.11",
